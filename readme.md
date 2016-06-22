@@ -23,9 +23,11 @@ Use the /states.rds/ data set. Fit a model predicting energy consumed per capita
 
 Select one or more additional predictors to add to your model and repeat steps 1-3. Is this model significantly better than the model with /metro/ as the only predictor?
 
-Here is a glimpse of the data and attributes:
+Here is a glimpse of the data:
 
 ![sampledata01](plots/sampledata01.png)
+
+And information about the variables:
 ![attributes](plots/sampledata02.png)
 
 
