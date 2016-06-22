@@ -25,8 +25,8 @@ Select one or more additional predictors to add to your model and repeat steps 1
 
 Here is a glimpse of the data and attributes:
 
-![sampledata01](data/sampledata01.png)
-![attributes](data/sampledata02.png)
+![sampledata01](plots/sampledata01.png)
+![attributes](plots/sampledata02.png)
 
 
 
