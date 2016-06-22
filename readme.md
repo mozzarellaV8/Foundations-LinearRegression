@@ -13,5 +13,20 @@ This is an exercise in fitting a linear regression model to data, as part of Spr
 
 #### Instructions
 
+###### Exercise: least squares regression
+
+Use the /states.rds/ data set. Fit a model predicting energy consumed per capita (energy) from the percentage of residents living in metropolitan areas (metro). Be sure to
+
+1. Examine/plot the data before fitting the model
+2. Print and interpret the model `summary'
+3. `plot' the model to look for deviations from modeling assumptions
+
+Select one or more additional predictors to add to your model and repeat steps 1-3. Is this model significantly better than the model with /metro/ as the only predictor?
+
+Here is a glimpse of the data and attributes:
+
+![sampledata01](data/sampledata01.png)
+![attributes](data/sampledata02.png)
+
 
 
