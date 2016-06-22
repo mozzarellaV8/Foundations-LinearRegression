@@ -28,6 +28,7 @@ Here is a glimpse of the data:
 ![sampledata01](plots/sampledata01.png)
 
 And information about the variables:
+
 ![attributes](plots/sampledata02.png)
 
 
