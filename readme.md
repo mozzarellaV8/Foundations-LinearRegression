@@ -7,10 +7,11 @@ This is an exercise in fitting a linear regression model to data, as part of Spr
 
 
 - [Instructions]()
-- [Data]()
+- [Data](data)
 - [Code]()
 - [Analysis]()
 
 #### Instructions
+
 
 
