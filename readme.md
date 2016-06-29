@@ -8,12 +8,11 @@ This is an exercise in fitting a linear regression model to data, as part of Spr
 
 - [Instructions]()
 - [Data](data)
-- [Code]()
-- [Analysis]()
+- [Process and Analysis]()
 
-#### Instructions
+## Instructions
 
-###### Exercise: least squares regression
+#### Exercise: least squares regression
 
 Use the /states.rds/ data set. Fit a model predicting energy consumed per capita (energy) from the percentage of residents living in metropolitan areas (metro). Be sure to
 
@@ -30,6 +29,10 @@ Here is a glimpse of the data:
 And information about the variables:
 
 ![attributes](plots/sampledata02.png)
+
+## Process and Analysis
+
+
 
 
 
