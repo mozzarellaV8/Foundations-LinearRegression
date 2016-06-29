@@ -66,7 +66,8 @@ metro.energyP1 <- ggplot(metro.energy, aes(metro, energy)) + theme_minimal() +
   theme(axis.title.x = element_text(family = "Times", face = "italic")) +
   theme(axis.title.y = element_text(family = "Times", face = "italic")) +
   theme(axis.text.x = element_text(family = "Times", face = "plain")) +
-  theme(axis.text.y = element_text(family = "Times", face = "plain"))
+  theme(axis.text.y = element_text(family = "Times", face = "plain")) +
+  theme(plot.margin = unit(c(3, 3, 3, 3), "cm"))
 
 metro.energyP1
 
