@@ -71,9 +71,6 @@ metro.energyP1 <- ggplot(metro.energy, aes(metro, energy)) + theme_minimal() +
 
 metro.energyP1
 
-install.packages("corrplot")
-library(corrplot)
-
 # model 01 - Energy ~ Metropolitan --------------------------------------------
 
 energy.metro.mod <- lm(energy ~ metro, data = states.data)
@@ -92,9 +89,13 @@ summary(energy.metro.mod)
 # The R-Squared values also appear to suggest a weak relationship: 
 # Multiple R-squared:  0.1154,	Adjusted R-squared:  0.097 
 
-par(mfrow = c(2, 2), mar = c(7, 7, 7, 7))
-plot(energy.metro.mod)
+par(mfrow = c(2, 2), mar = c(7, 7, 7, 7), family = "Times")
+plot(energy.metro.mod, 
+     main = "Energy Consumption ~ % of Population Living in Metropolitan Areas, U.S.")
 
+class(energy.metro.mod)
+names(energy.metro.mod)
+methods(class = class(energy.metro.mod))[1:9]
 
 # Outlier commentary --------------------------------------
 
@@ -124,7 +125,42 @@ plot(energy.metro.mod)
 # Another explanatory variable might be `area` - the land area of 
 # state in square miles. 
 
-# model 02 - House Voting and State Area --------------------------------------
+# Correlation Plot ------------------------------------------------------------
+
+# Before fitting a model with variaables of my own choosing, I'd like to do 
+# a correlation plot to see what relationships exist between the 
+# independent variables.
+
+
+states.cor <- states.data
+states.cor$region <- NULL
+
+states.index <- data.frame(state.num = 1:51, state = states.data$state)
+
+states.cor$state <- NULL
+
+states.cor <- cor(states.cor)
+
+library(corrplot)
+
+par(mfrow = c(2, 1), mar = c(8, 8, 8, 8), family = "Times")
+corrplot(states.cor)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Model 02 - House Voting and State Area --------------------------------------
 
 # house pre-plot --------------------------------------
 par(mfrow = c(1, 1), mar = c(5, 5, 5, 5))
@@ -171,6 +207,16 @@ en.house.area.model <- lm(energy ~ house + area, data = states.data)
 par(mfrow = c(2, 2), mar = c(5, 5, 5, 5))
 plot(en.house.area.model)
 
+
+
+
+
+
+
+
+
+
+
 # Revisiting my first intuitions - particularly on why Alaska
 # might be a leader in energy consumption - got me to think about
 # the uniquely cold climate of Alaska and their role in energy production,
@@ -182,6 +228,17 @@ plot(en.house.area.model)
 
 # So! Let's take a look at energy as a function of waste, toxics, 
 # greenhouse gas emission variables. 
+
+
+
+
+
+
+
+
+
+
+
 
 # model 03 - Energy ~ Toxics + Green ------------------------------------------
 
