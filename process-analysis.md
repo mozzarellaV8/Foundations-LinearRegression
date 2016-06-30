@@ -26,8 +26,9 @@ And information about the variables:
 
 #### load the data
 
-```states.data <- readRDS("data/states.rds")```
-```states.info <- data.frame(attributes(states.data)[c("names", "var.labels")])```
+				states.data <- readRDS("data/states.rds")
+				
+				states.info <- data.frame(attributes(states.data)[c("names", "var.labels")])
 
 `states.data` contains the qualitative information on each US State across 21 variables. There is one categorical variable - `region` - which groups each state into one of four regions across the country (e.g. 'North East, Midwest'). 
 
