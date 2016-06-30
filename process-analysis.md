@@ -29,9 +29,11 @@ And information about the variables:
 				states.data <- readRDS("data/states.rds")
 				states.info <- data.frame(attributes(states.data)[c("names", "var.labels")])
 
-`states.data` contains the qualitative information on each US State across 21 variables. There is one categorical variable - `region` - which groups each state into one of four regions across the country (e.g. 'North East, Midwest'). 
+`states.data` contains the qualitative information on each US State across 21 variables. 
 
-`states.info` is the other dataset provided - this contains attribute details for each of the 21 variables in `states.data`. 
+There is one categorical variable - `region` - which groups each state into one of four regions across the country (e.g. 'North East, Midwest'). 
+
+`states.info` contains attribute details for each of the 21 variables in `states.data` - an easy-to-read dataframe explaining the variables. 
 
 #### preliminary correlation test and plotting
 
@@ -39,8 +41,12 @@ We'll be taking a look at the relationship between Energy Consumption by State, 
 
 Before diving directly into a linear model, I thought it'd be a good idea to look at some correlation tests and general plots of the variables of interest. As a student I still find the `lm()` function quite powerful and wherever possible would like to get a sense of the data before running code. 
 
-`metro.energy <- subset(states.data, select = c("metro", "energy"))`
-`summary(metro.energy)`
+
+``` r
+metro.energy <- subset(states.data, select = c("metro", "energy"))
+summary(metro.energy)
+```
+
 
 
 
