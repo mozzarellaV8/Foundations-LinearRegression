@@ -53,9 +53,9 @@ summary(metro.energy)
 cor(metro.energy)
 ```
 
-	##        metro energy
-	## metro      1     NA
-	## energy    NA      1
+	#        metro energy
+	# metro      1     NA
+	# energy    NA      1
 
 It looks like the NA values throw off the correlation test. Even though I'd be throwing out data, I'd like to see _some_ value just to get a sense of the data. How many NA's are there? Significant amount?
 
@@ -78,6 +78,26 @@ Seeing a weak downhill linear relationship - cor value at -0.339. Now for a quic
 ![metro, energy plot from states.data](plots/02-energy.model-EDA.jpg)
 
 While we don't have a linear model yet - it's interesting to note where the outliers are.
+
+## Model 01 - Energy ~ Metropolitan
+
+``` r
+energy.metro.mod <- lm(energy ~ metro, data = states.data)
+summary(energy.metro.mod)
+```
+My intuition coming into this was that the more people living in metropolitan areas, the more energy would be consumed per capita. But judging from the Coefficients, the percentage of people living in metropolitan areas doesn't seem to be the strongest predictor of energy consumption:
+
+	# Coefficients:
+	#              Estimate Std. Error t value Pr(>|t|)    
+	#  (Intercept) 501.0292    61.8136   8.105 1.53e-10 ***
+	#  metro        -2.2871     0.9139  -2.503   0.0158 *  
+
+The R-Squared values also appear to suggest a weak relationship: 
+
+	# Multiple R-squared:  0.1154,	Adjusted R-squared:  0.097 
+
+![lm plot](plots/03-energy.metro.mod.jpeg)
+
 
 ##  Outlier Commentary
 
