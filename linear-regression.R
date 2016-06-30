@@ -150,28 +150,31 @@ metro.energyP3
 # a correlation plot to see what relationships exist between the 
 # independent variables.
 
-states.cor <- states.data
+states.q <- states.data
 states.index <- data.frame(state.num = 1:51, state = states.data$state)
 
 # remove categorical data for cor()
-states.cor$region <- NULL
-states.cor$state <- NULL
+states.q$region <- NULL
+states.q$state <- NULL
 
-states.cor <- cor(states.cor, use = "complete.obs")
+states.cor <- cor(states.q, use = "complete.obs")
 states.cor <- round(states.cor, digits = 2)
-states.var <- var(states.cor)
-states.cov <- cov(states.cor)
+
+states.var <- var(states.q, use = "complete.obs")
+states.var <- round(states.var, digits = 2)
+
+states.cov <- cov(states.q, use = "complete.obs")
+states.cov <- round(states.cov, digits = 2)
 
 # let's keep these tables handy
-write.table(states.cor, file = "state_correlation_table.csv", sep = ",", row.names = T)
-write.table(states.var, file = "state_variance_table.csv", sep = ",", row.names = T)
-write.table(states.cov, file = "state_covariance_table.csv", sep = ",", row.names = T)
+write.table(states.cor, file = "state_cor.csv", sep = ",", row.names = T)
+write.table(states.var, file = "state_variance.csv", sep = ",", row.names = T)
+write.table(states.cov, file = "state_covariance.csv", sep = ",", row.names = T)
 
 
 library(corrplot)
 
-# because I will be printing this out for my notes,
-# a minor design choice.
+# because I will be printing this out for my notes, I'm making a design choice.
 library(extrafontdb)
 library(extrafont)
 font_import()
