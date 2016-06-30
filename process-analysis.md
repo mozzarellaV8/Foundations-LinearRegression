@@ -2,9 +2,9 @@
 
 _Student work in R_
 
-## Instructions
+## Least Squares Regression
 
-## Exercise: least squares regression
+_instructions per this [tutorial](http://tutorials.iq.harvard.edu/R/Rstatistics/Rstatistics.html#orgheadline16)_
 
 Use the /states.rds/ data set. Fit a model predicting energy consumed per capita (energy) from the percentage of residents living in metropolitan areas (metro). Be sure to
 
@@ -12,7 +12,7 @@ Use the /states.rds/ data set. Fit a model predicting energy consumed per capita
 2. Print and interpret the model `summary'
 3. `plot' the model to look for deviations from modeling assumptions
 
-Select one or more additional predictors to add to your model and repeat steps 1-3. Is this model significantly better than the model with /metro/ as the only predictor?
+Select one or more additional predictors to add to your model and repeat steps 1-3. Is this model significantly better than the model with `metro` as the only predictor?
 
 Here is a glimpse of the data:
 
