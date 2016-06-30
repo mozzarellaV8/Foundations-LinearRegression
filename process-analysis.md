@@ -108,7 +108,7 @@ When ranked by total population, Wyoming and Alaska are the top 2 least populate
 
 The same goes for population density.
 
-What might be interesting is that Wyoming tops the list of greenhouse gases released, and Louisiana tops the list of toxics released. These factors may be a _result_ rather than _cause_ of Energy Consumption, though. Perhaps they exist dialectically in a 'chicken or the egg'-type of causality dilemma. Either way -  I'm not going to even come close to claiming _any_ *causality* with this exercise, but do find it interesting that a linear model with these highly correlated variables could lead to an intense paradox (or endless argment).
+Wyoming tops the list of greenhouse gases released, and Louisiana tops the list of toxics released. These factors may be a _result_ rather than _cause_ of Energy Consumption, though. Perhaps they exist dialectically in a 'chicken or the egg'-type of causality dilemma. Either way -  I'm not going to even come close to claiming _any_ *causality* with this exercise, but do find it slightly amusing that a linear model with potentially highly correlated variables could lead to an unsolvable paradox (or more likely, an endless argment).
 
 Alaska has the most % of adults with a HS diploma, most area + least density.
 
