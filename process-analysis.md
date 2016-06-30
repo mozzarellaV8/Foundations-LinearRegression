@@ -110,8 +110,40 @@ The same goes for population density.
 
 Wyoming tops the list of greenhouse gases released, and Louisiana tops the list of toxics released. These factors may be a _result_ rather than _cause_ of Energy Consumption, though. Perhaps they exist dialectically in a 'chicken or the egg'-type of causality dilemma. Either way -  I'm not going to even come close to claiming _any_ *causality* with this exercise, but do find it slightly amusing that a linear model with potentially highly correlated variables could lead to an unsolvable paradox (or more likely, an endless argment).
 
-Alaska has the most % of adults with a HS diploma, most area + least density.
 
-All three of these outlier states rank in the top 8 least % of House and Senate voting on environmental law. Could it be that legislation is a better predictor of energy consumption than metropolitan population? Again, that could simply be a _result_ rather than strong explanatory variable. 
+All three of these outlier states rank in the top 8 least % of House and Senate voting on environmental law. Could it be that legislation is a better predictor of energy consumption than metropolitan population? Again, that could simply be a _result_ rather than strong explanatory variable - respective states' legislative bodies voting to maintain constituencies.
+
+Given that the lowest populations are consuming the most energy - I'm going to venture that industry is what accounts for the outlier spikes, rather than everyday citizens. 
+
+## Correlation Plot 
+
+Before fitting a model with variaables of my own choosing, I'd like to do 
+a correlation plot to see what relationships exist between the independent variables.
+
+For the moment, I'm going to choose to focus strictly on quantitative data for plotting correlations.
+
+``` r
+states.q <- states.data
+
+states.index <- data.frame(state.num = 1:51, state = states.data$state)
+
+states.q$region <- NULL
+states.q$state <- NULL
+
+states.cor <- cor(states.q, use = "complete.obs")
+states.cor <- round(states.cor, digits = 2)
+
+states.var <- var(states.q, use = "complete.obs")
+states.var <- round(states.var, digits = 2)
+
+states.cov <- cov(states.q, use = "complete.obs")
+states.cov <- round(states.cov, digits = 2)
+
+write.table(states.cor, file = "state_cor.csv", sep = ",", row.names = T)
+write.table(states.var, file = "state_variance.csv", sep = ",", row.names = T)
+write.table(states.cov, file = "state_covariance.csv", sep = ",", row.names = T)
+```
+
+
 
 
