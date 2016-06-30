@@ -31,25 +31,18 @@ states.data <- readRDS("data/states.rds")
 states.info <- data.frame(attributes(states.data)[c("names", "var.labels")])
 ```
 
-`states.data` contains the qualitative information on each US State across 21 variables. 
+`states.data` contains the qualitative information on each US State across 21 variables, as seen above. 
 
-There is one categorical variable - `region` - which groups each state into one of four regions across the country (e.g. 'North East, Midwest'). 
-
-`states.info` contains attribute details for each of the 21 variables in `states.data` - an easy-to-read dataframe explaining the variables. 
+There is one categorical variable aside from the state name - `region` - which groups each state into one of four geographic regions across the country (e.g. 'North East, Midwest'). `states.info` contains attribute details for each of the 21 variables in `states.data` - an easy-to-read dataframe explaining the variables. 
 
 #### Preliminary: Correlation Test and Plotting
 
 We'll be taking a look at the relationship between Energy Consumption by State, and the Percentage of the Population Living in Metropolitan Areas. A naive intuition might suggest there's a correlation between the two - the more people there are living in cities, the more power will be used or consumed. 
 
-Before diving directly into a linear model, I thought it'd be a good idea to look at some correlation tests and general plots of the variables of interest. As a student I still find the `lm()` function quite powerful and wherever possible would like to get a sense of the data before running code. 
-
+Before diving directly into a linear model, I thought it'd be a good idea to look at some correlation tests and general plots of the variables of interest. Wherever possible, I like to get a sense of the data before running an algorithm.
 
 ``` r
 metro.energy <- subset(states.data, select = c("metro", "energy"))
-summary(metro.energy)
-```
-
-``` r
 cor(metro.energy)
 ```
 
@@ -57,13 +50,13 @@ cor(metro.energy)
 	# metro      1     NA
 	# energy    NA      1
 
-It looks like the NA values throw off the correlation test. Even though I'd be throwing out data, I'd like to see _some_ value just to get a sense of the data. How many NA's are there? Significant amount?
+It looks like the NA values throw off the correlation test. Even though I'd be throwing out data, I'd like to see _some_ value just to get a sense of the data. How many NA's are there? A significant amount?
 
 ``` r
 is.na(metro.energy)
 ```
 
-Looks like there is only row of NAs - the District of Columbia. I feel _OK_ to leave this particulaar data out - if just to get an approximate sense of correlation between Metropolitan Population and Energy Consumption. Given the relatively small population of D.C. and more importantly it's status as a Federal District rather than state, I'm going to assume there is a reason for the missing data; that it didn't disappear at random. 
+Looks like there is only row of NAs - the District of Columbia. I feel _OK_ to leave this particulaar data out in this instance - just to get an approximate sense of correlation between Metropolitan Population and Energy Consumption. Given the relatively small population of D.C. and it's status as a Federal District rather than state, I'm going to assume there is a reason for the missing data; that it didn't disappear at random. 
 
 ``` r
 cor(na.omit(metro.energy))
@@ -73,11 +66,11 @@ cor(na.omit(metro.energy))
 	# metro   1.0000000 -0.3397445
 	# energy -0.3397445  1.0000000
 
-Seeing a weak downhill linear relationship - cor value at -0.339. Now for a quick plot to see where the data points lie before fitting a model. 
+Seeing a weak downhill linear relationship, in the cor value of -0.339. Now for a quick plot to see where the data points lie before fitting a model. 
 
-![metro, energy plot from states.data](plots/02-energy.model-EDA.jpg)
+![metro, energy plot from states.data](plots/02-energy.model-EDA.png)
 
-While we don't have a linear model yet - it's interesting to note where the outliers are.
+While we don't have a linear model yet - I think it's interesting to note the presence of a handful of outliers in Energy Consumption. 
 
 ## Model 01 - Energy ~ Metropolitan
 
