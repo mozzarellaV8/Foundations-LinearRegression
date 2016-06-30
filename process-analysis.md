@@ -39,7 +39,7 @@ There is one categorical variable - `region` - which groups each state into one 
 
 #### Preliminary: Correlation Test and Plotting
 
-We'll be taking a look at the relationship between Energy Consumption by State, and the percentage of the population living in Metropolitan Areas. A naive intuition might suggest there's a correlation between the two - the more people there are living in cities, the more power will be used or consumed. 
+We'll be taking a look at the relationship between Energy Consumption by State, and the Percentage of the Population Living in Metropolitan Areas. A naive intuition might suggest there's a correlation between the two - the more people there are living in cities, the more power will be used or consumed. 
 
 Before diving directly into a linear model, I thought it'd be a good idea to look at some correlation tests and general plots of the variables of interest. As a student I still find the `lm()` function quite powerful and wherever possible would like to get a sense of the data before running code. 
 
@@ -57,13 +57,13 @@ cor(metro.energy)
 	## metro      1     NA
 	## energy    NA      1
 
-It looks like the NA values throw off the correlation test. Even though I'd be throwing out data, I'd like to see some value just to get a sense of the data. How many NA's are there? Significant amount?
+It looks like the NA values throw off the correlation test. Even though I'd be throwing out data, I'd like to see _some_ value just to get a sense of the data. How many NA's are there? Significant amount?
 
 ``` r
 is.na(metro.energy)
 ```
 
-Looks like there is only row of NAs - the District of Columbia. Given the relatively small population of D.C. and it's status as a Federal District rather than state - I feel OK to throw out this data if just to get an approximate sense of correlation between Metropolitan Population and Energy Consumption.
+Looks like there is only row of NAs - the District of Columbia. I feel _OK_ to leave this particulaar data out - if just to get an approximate sense of correlation between Metropolitan Population and Energy Consumption. Given the relatively small population of D.C. and more importantly it's status as a Federal District rather than state, I'm going to assume there is a reason for the missing data; that it didn't disappear at random. 
 
 ``` r
 cor(na.omit(metro.energy))
@@ -75,26 +75,22 @@ cor(na.omit(metro.energy))
 
 Seeing a weak downhill linear relationship - cor value at -0.339. Now for a quick plot to see where the data points lie before fitting a model. 
 
-``` r
-library(ggplot2)
-
-metro.energyP1 <- ggplot(metro.energy, aes(metro, energy)) + theme_minimal() +
-  geom_point(aes(color = energy), size = 5, shape = 19) +
-  ggtitle("Energy Consumption ~ Metropolitan Population %, US") +
-  theme(plot.title = element_text(family = "Times", face = "bold")) +
-  labs(x = "Metropolitan area population, %", y = "Per capita energy consumed, Btu") +
-  theme(axis.title.x = element_text(family = "Times", face = "italic")) +
-  theme(axis.title.y = element_text(family = "Times", face = "italic")) +
-  theme(axis.text.x = element_text(family = "Times", face = "plain")) +
-  theme(axis.text.y = element_text(family = "Times", face = "plain")) +
-  theme(plot.margin = unit(c(3, 3, 3, 3), "cm"))
-
-metro.energyP1  
-```
-
 ![metro, energy plot from states.data](plots/02-energy.model-EDA.jpg)
 
+While we don't have a linear model yet - it's interesting to note where the outliers are.
 
+##  Outlier Commentary
 
+The outliers in this case appear to be states 2, 19, and 51 - Alaska, Louisiana, and Wyoming. 
+
+When ranked by total population, Wyoming and Alaska are the top 2 least populated states, respectively. Louisiana falls toward the middle of this list. 
+
+The same goes for population density.
+
+What might be interesting is that Wyoming tops the list of greenhouse gases released, and Louisiana tops the list of toxics released. These factors may be a _result_ rather than _cause_ of Energy Consumption, though. Perhaps they exist dialectically in a 'chicken or the egg'-type of causality dilemma. Either way -  I'm not going to even come close to claiming _any_ *causality* with this exercise, but do find it interesting that a linear model with these highly correlated variables could lead to an intense paradox (or endless argment).
+
+Alaska has the most % of adults with a HS diploma, most area + least density.
+
+All three of these outlier states rank in the top 8 least % of House and Senate voting on environmental law. Could it be that legislation is a better predictor of energy consumption than metropolitan population? Again, that could simply be a _result_ rather than strong explanatory variable. 
 
 
