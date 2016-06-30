@@ -8,7 +8,7 @@ This is an exercise in fitting a linear regression model to data, as part of Spr
 
 - [Instructions](instructions)
 - [Data](data)
-- [Process and Analysis](process-and-analysis)
+- [Process and Analysis](process-analysis)
 
 ## Instructions
 
