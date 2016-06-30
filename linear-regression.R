@@ -2,11 +2,12 @@
 # Unit 7.1 - Linear Regression Exercise
 
 ## Exercise: least squares regression
-## ────────────────────────────────────────
+## ──────────────────────────────────
 
-##   Use the /states.rds/ data set. Fit a model predicting energy consumed
-##   per capita (energy) from the percentage of residents living in
-##   metropolitan areas (metro). Be sure to
+##   Use the /states.rds/ data set. 
+##   Fit a model predicting energy consumed per capita (energy) 
+##   from the percentage of residents living in metropolitan areas (metro). 
+
 ##   1. Examine/plot the data before fitting the model
 ##   2. Print and interpret the model `summary'
 ##   3. `plot' the model to look for deviations from modeling assumptions
@@ -19,7 +20,7 @@
 
 states.data <- readRDS("data/states.rds")
 
-# get labels
+# derive labels from attributes
 states.info <- data.frame(attributes(states.data)[c("names", "var.labels")])
 tail(states.info, 8)
 
@@ -28,24 +29,19 @@ tail(states.info, 8)
 
 metro.energy <- subset(states.data, select = c("metro", "energy"))
 summary(metro.energy)
-
-cor(metro.energy) 
-# It looks like the NA values throw off the correlation test.
-# Even though I'd be throwing out data, I'd like to see some value.
-# How many NA's are there? Significant amount?
-
 is.na(metro.energy)
 # Looks like there is only 1 NA row - the District of Columbia. 
-# Because it's a special district and not a state, I feel OK omitting it - 
-# if just to get an approximate sense of correlation 
-# between Metropolitan Population and Energy Consumption.
+# Because it's a Federal District and relatively small population, 
+# I feel OK omitting it - 
+# if only just to get an _approximate_ sense of correlation 
+# between Metropolitan Population % and Energy Consumption.
 
 cor(na.omit(metro.energy))
 #             metro     energy
 # metro   1.0000000 -0.3397445
 # energy -0.3397445  1.0000000
 
-# seeing a weak downhill linear relationship - cor value at -0.339.
+# Seeing a weak downhill linear relationship - cor value at -0.339.
 
 par(mfrow = c(1, 1), mar = c(8, 8, 8, 8), family = "Times")
 plot(metro.energy, xlab = "Metropolitan area population, %",
@@ -54,18 +50,17 @@ plot(metro.energy, xlab = "Metropolitan area population, %",
 
 library(ggplot2)
 
-metro.energyP1 <- ggplot(metro.energy, aes(metro, energy)) + theme_minimal() +
-  geom_point(aes(color = energy), size = 4, shape = 19) +
-  ggtitle("Energy Consumption ~ Metropolitan Population %, US") +
-  theme(plot.title = element_text(family = "Times", face = "bold", size = 20)) +
+metro.energyP1 <- ggplot(metro.energy, aes(metro, energy)) + 
+  theme_minimal() +
+  geom_point(aes(color = metro), size = 4.75, shape = 17) +
+  ggtitle("Energy Consumption ~ Metropolitan Population % (US)") +
+  theme(plot.title = element_text(family = "Times", face = "bold", size = 18)) +
   labs(x = "Metropolitan area population, %", y = "Per capita energy consumed, BTU") +
   theme(axis.title.x = element_text(family = "Times", face = "italic", size = 14)) +
   theme(axis.title.y = element_text(family = "Times", face = "italic", size = 14)) +
   theme(axis.text.x = element_text(family = "Times", face = "plain", size = 11)) +
   theme(axis.text.y = element_text(family = "Times", face = "plain", size = 11)) +
   theme(plot.margin = unit(c(3, 3, 3, 3), "cm"))
-
-metro.energyP1
 
 # model 01 - Energy ~ Metropolitan --------------------------------------------
 
@@ -92,6 +87,34 @@ plot(energy.metro.mod,
 class(energy.metro.mod)
 names(energy.metro.mod)
 methods(class = class(energy.metro.mod))[1:9]
+
+# Let's plot again with outliers highlighted and lm line fit. 
+metro.energyP1 <- metro.energyP1 + 
+  stat_smooth(method = lm, level = 0.95, se = FALSE, colour = "#CD2626")
+
+metro.energyP2 <- metro.energyP1 + 
+  annotate("text", x = 35, y = 765, label = "Wyoming; 29.6%, 786 btu",
+           family = "Times", size = 4) +
+  annotate("text", x = 46, y = 972, label = "Alaska; 41.6%, 991 btu",
+           family = "Times", size = 4) +
+  annotate("text", x = 74.45, y = 764, label = "Louisiana; 69.5%, 783 btu",
+           family = "Times", size = 4) +
+  annotate("text", x = 86.25, y = 550.25, label = "Texas; 64.86%, 569 btu",
+           family = "Times", size = 4) +
+  theme(legend.title = element_text(family = "Times")) +
+  theme(legend.text = element_text(family = "Times"))
+
+metro.energyP2
+
+metro.energyP3 <- metro.energyP2 +
+  annotate("text", x = 106, y = 316, label = "New Jersey; 100%, 296 btu",
+           family = "Times", size = 4) +
+  annotate("text", x = 29, y = 212, label = "Vermont; 23.4%, 232 btu",
+           family = "Times", size = 4) +
+  labs(x = "% of population living in metropolitan areas",
+       y = "per capita energy consumed, BTU")
+
+metro.energyP3
 
 # Outlier commentary --------------------------------------
 
@@ -135,6 +158,7 @@ states.cor$region <- NULL
 states.cor$state <- NULL
 
 states.cor <- cor(states.cor, use = "complete.obs")
+states.cor <- round(states.cor, digits = 2)
 states.var <- var(states.cor)
 states.cov <- cov(states.cor)
 
