@@ -98,6 +98,10 @@ The R-Squared values also appear to suggest a weak relationship:
 
 ![lm plot](plots/03-energy.metro.mod.jpeg)
 
+And thought I'd return to the original ggplot and add a linear model line, as well as some annotations on the outliers and two extreme values. 
+
+![lm plot annotated](plots/02-energy.model-lm-anno-02.png)
+
 
 ##  Outlier Commentary
 
