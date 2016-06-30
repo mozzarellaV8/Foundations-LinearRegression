@@ -35,7 +35,10 @@ OK! Let's load the data into R.
 
 We'll be taking a look at the relationship between Energy Consumption by State, and the percentage of the population living in Metropolitan Areas. A naive intuition might suggest there's a correlation between the two - the more people there are living in cities, the more power will be used or consumed. 
 
+Before diving directly into a linear model, I thought it'd be a good idea to look at some correlation tests and general plots of the variables of interest. As a student I still find the `lm()` function quite powerful and wherever possible would like to get a sense of the data before running code. 
 
+`metro.energy <- subset(states.data, select = c("metro", "energy"))`
+`summary(metro.energy)`
 
 
 
