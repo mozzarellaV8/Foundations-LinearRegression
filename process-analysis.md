@@ -24,10 +24,12 @@ And information about the variables:
 
 ## Process and Analysis
 
-#### load the data
+#### Loading State Data and Info
 
-				states.data <- readRDS("data/states.rds")
-				states.info <- data.frame(attributes(states.data)[c("names", "var.labels")])
+``` r
+states.data <- readRDS("data/states.rds")
+states.info <- data.frame(attributes(states.data)[c("names", "var.labels")])
+```
 
 `states.data` contains the qualitative information on each US State across 21 variables. 
 
@@ -35,7 +37,7 @@ There is one categorical variable - `region` - which groups each state into one 
 
 `states.info` contains attribute details for each of the 21 variables in `states.data` - an easy-to-read dataframe explaining the variables. 
 
-#### preliminary correlation test and plotting
+#### Preliminary: Correlation Test and Plotting
 
 We'll be taking a look at the relationship between Energy Consumption by State, and the percentage of the population living in Metropolitan Areas. A naive intuition might suggest there's a correlation between the two - the more people there are living in cities, the more power will be used or consumed. 
 
