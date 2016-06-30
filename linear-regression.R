@@ -173,18 +173,17 @@ write.table(states.cov, file = "state_covariance.csv", sep = ",", row.names = T)
 
 
 library(corrplot)
-
-# because I will be printing this out for my notes, I'm making a design choice.
 library(extrafontdb)
 library(extrafont)
-font_import()
 fonttable()
 
-ypar(mfrow = c(1, 1), mar = c(8, 8, 8, 8), family = "Futura", asp = 1)
+par(mfrow = c(1, 1), mar = c(8, 8, 6, 12), family = "Arial Rounded MT Bold")
 corrplot(states.cor)
 
+# shade
+par(mfrow = c(1, 1), mar = c(12, 6, 8, 20), family = "Arial Rounded MT Bold")
 corrplot(states.cor, method = "shade", shade.col = NA, tl.col = "firebrick3", 
-         tl.srt = 45, tl.cex = 1.1)
+         tl.srt = 45, tl.cex = 1.0)
 
 
 
