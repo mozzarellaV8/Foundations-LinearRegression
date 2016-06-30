@@ -21,12 +21,7 @@ states.data <- readRDS("data/states.rds")
 
 # get labels
 states.info <- data.frame(attributes(states.data)[c("names", "var.labels")])
-
-#look at last few labels
 tail(states.info, 8)
-head(states.info, 10)
-summary(states.data$metro)
-summary(states.data$energy)
 
 # preliminary analysis --------------------------------------------------------
 # for an energy ~ metro model
@@ -49,9 +44,10 @@ cor(na.omit(metro.energy))
 #             metro     energy
 # metro   1.0000000 -0.3397445
 # energy -0.3397445  1.0000000
+
 # seeing a weak downhill linear relationship - cor value at -0.339.
 
-par(mfrow = c(1, 1), mar = c(5, 5, 5, 5))
+par(mfrow = c(1, 1), mar = c(8, 8, 8, 8), family = "Times")
 plot(metro.energy, xlab = "Metropolitan area population, %",
      ylab = "Per capita energy consumed, Btu",
      main = "Energy Consumption ~ Metropolitan Population %, US")
@@ -59,14 +55,14 @@ plot(metro.energy, xlab = "Metropolitan area population, %",
 library(ggplot2)
 
 metro.energyP1 <- ggplot(metro.energy, aes(metro, energy)) + theme_minimal() +
-  geom_point(aes(color = energy), size = 5, shape = 19) +
+  geom_point(aes(color = energy), size = 4, shape = 19) +
   ggtitle("Energy Consumption ~ Metropolitan Population %, US") +
-  theme(plot.title = element_text(family = "Times", face = "bold")) +
-  labs(x = "Metropolitan area population, %", y = "Per capita energy consumed, Btu") +
-  theme(axis.title.x = element_text(family = "Times", face = "italic")) +
-  theme(axis.title.y = element_text(family = "Times", face = "italic")) +
-  theme(axis.text.x = element_text(family = "Times", face = "plain")) +
-  theme(axis.text.y = element_text(family = "Times", face = "plain")) +
+  theme(plot.title = element_text(family = "Times", face = "bold", size = 20)) +
+  labs(x = "Metropolitan area population, %", y = "Per capita energy consumed, BTU") +
+  theme(axis.title.x = element_text(family = "Times", face = "italic", size = 14)) +
+  theme(axis.title.y = element_text(family = "Times", face = "italic", size = 14)) +
+  theme(axis.text.x = element_text(family = "Times", face = "plain", size = 11)) +
+  theme(axis.text.y = element_text(family = "Times", face = "plain", size = 11)) +
   theme(plot.margin = unit(c(3, 3, 3, 3), "cm"))
 
 metro.energyP1
@@ -89,9 +85,13 @@ summary(energy.metro.mod)
 # The R-Squared values also appear to suggest a weak relationship: 
 # Multiple R-squared:  0.1154,	Adjusted R-squared:  0.097 
 
-par(mfrow = c(2, 2), mar = c(7, 7, 7, 7))
-plot(energy.metro.mod)
+par(mfrow = c(2, 2), mar = c(7, 7, 7, 7), family = "Times")
+plot(energy.metro.mod, 
+     main = "Energy Consumption ~ % of Population Living in Metropolitan Areas, U.S.")
 
+class(energy.metro.mod)
+names(energy.metro.mod)
+methods(class = class(energy.metro.mod))[1:9]
 
 # Outlier commentary --------------------------------------
 
@@ -121,52 +121,52 @@ plot(energy.metro.mod)
 # Another explanatory variable might be `area` - the land area of 
 # state in square miles. 
 
-# model 02 - House Voting and State Area --------------------------------------
+# Correlation Plot ------------------------------------------------------------
 
-# house pre-plot --------------------------------------
-par(mfrow = c(1, 1), mar = c(5, 5, 5, 5))
-plot(states.data$house, states.data$energy,
-     xlab = "House '91 environ. voting, %",
-     ylab = "Per capita energy consumed, BTU",
-     main = "Energy Consumption ~ House Voting")
+# Before fitting a model with variaables of my own choosing, I'd like to do 
+# a correlation plot to see what relationships exist between the 
+# independent variables.
 
-# state pre-plot -----------------------------------------
-par(mfrow = c(1, 1), mar = c(5, 5, 5, 5))
-plot(states.data$house, states.data$area,
-     xlab = "Land area, square miles",
-     ylab = "Per capita energy consumed, BTU",
-     main = "Energy Consumption ~ Land Area")
+states.cor <- states.data
+states.index <- data.frame(state.num = 1:51, state = states.data$state)
 
-# correlation tests for House and Area --------------------
+# remove categorical data for cor()
+states.cor$region <- NULL
+states.cor$state <- NULL
 
-house.energy <- subset(states.data, select = c("house", "energy"))
-cor(na.omit(house.energy))
-#             house     energy
-# house   1.0000000 -0.6346872
-# energy -0.6346872  1.0000000
-# A stronger downhill relationship, above a -0.50 threshold, is observed.
+states.cor <- cor(states.cor, use = "complete.obs")
+states.var <- var(states.cor)
+states.cov <- cov(states.cor)
 
-area.energy <- subset(states.data, select = c("area", "energy"))
-cor(na.omit(area.energy))
-#             area    energy
-# area   1.0000000 0.6626519
-# energy 0.6626519 1.0000000
-# A stronger uphill relationship, above a 0.50 threshold, is observed.
+# let's keep these tables handy
+write.table(states.cor, file = "state_correlation_table.csv", sep = ",", row.names = T)
+write.table(states.var, file = "state_variance_table.csv", sep = ",", row.names = T)
+write.table(states.cov, file = "state_covariance_table.csv", sep = ",", row.names = T)
 
-summary(lm(energy ~ house + area, data = states.data))
-#  Coefficients:
-#                 Estimate Std. Error t value Pr(>|t|)    
-#  (Intercept)  4.257e+02  4.748e+01   8.966 9.59e-12 ***
-#  house       -2.825e+00  8.135e-01  -3.473 0.001116 ** 
-#  area         7.829e-04  1.965e-04   3.985 0.000233 ***
 
-# Multiple R-squared:  0.5537,	Adjusted R-squared:  0.5347 
+library(corrplot)
 
-en.house.area.model <- lm(energy ~ house + area, data = states.data)
+# because I will be printing this out for my notes,
+# a minor design choice.
+library(extrafontdb)
+library(extrafont)
+font_import()
+fonttable()
 
-# plot the model 
-par(mfrow = c(2, 2), mar = c(5, 5, 5, 5))
-plot(en.house.area.model)
+ypar(mfrow = c(1, 1), mar = c(8, 8, 8, 8), family = "Futura", asp = 1)
+corrplot(states.cor)
+
+corrplot(states.cor, method = "shade", shade.col = NA, tl.col = "firebrick3", 
+         tl.srt = 45, tl.cex = 1.1)
+
+
+
+
+
+
+
+
+
 
 # Revisiting my first intuitions - particularly on why Alaska
 # might be a leader in energy consumption - got me to think about
@@ -180,7 +180,9 @@ plot(en.house.area.model)
 # So! Let's take a look at energy as a function of waste, toxics, 
 # greenhouse gas emission variables. 
 
-# model 03 - Energy ~ Toxics + Green ------------------------------------------
+# I am suspicious about this model but would like to see what it returns nonetheless.
+
+# Model 02 - Energy ~ Toxics + Green ------------------------------------------
 
 summary(lm(energy ~ waste + toxic + green + metro, data = states.data))
 # Coefficients:
@@ -234,6 +236,8 @@ plot(states.data$energy, states.data$green)
 # area percentage. But my intuition again says that cause and effect, while they 
 # cannot be definitely inferred, are still too confused using these variables.
 # I.E., greenhouse gas emissions could be a result of energy consumption.
+
+
 
 
 
