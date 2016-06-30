@@ -142,10 +142,9 @@ states.var <- round(states.var, digits = 2)
 
 states.cov <- cov(states.q, use = "complete.obs")
 states.cov <- round(states.cov, digits = 2)
+```
 
-write.table(states.cor, file = "state_cor.csv", sep = ",", row.names = T)
-write.table(states.var, file = "state_variance.csv", sep = ",", row.names = T)
-write.table(states.cov, file = "state_covariance.csv", sep = ",", row.names = T)
+Now with variance and covariance tables, perhaps we can look into those too for clues. 
 
 #### plotting
 
@@ -176,7 +175,7 @@ corrplot(states.cor, method = "ellipse", order = "hclust", hclust.method = "ward
 
 ```
 
-![corrplot01](plots/cor-statesdata-03-hclustEllipse)
+![corrplot01](plots/cor-statesdata-03-hclustEllipse.png)
 
 
 
