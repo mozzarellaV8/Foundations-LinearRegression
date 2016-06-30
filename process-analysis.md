@@ -108,12 +108,12 @@ When ranked by total population, Wyoming and Alaska are the top 2 least populate
 
 The same goes for population density.
 
-Wyoming tops the list of greenhouse gases released, and Louisiana tops the list of toxics released. These factors may be a _result_ rather than _cause_ of Energy Consumption, though. Perhaps they exist dialectically in a 'chicken or the egg'-type of causality dilemma. Either way -  I'm not going to even come close to claiming _any_ *causality* with this exercise, but do find it slightly amusing that a linear model with potentially highly correlated variables could lead to an unsolvable paradox (or more likely, an endless argment).
+Wyoming tops the list of `greenhouse` gases released, and Louisiana tops the list of `toxics` released. These factors may be a _result_ rather than _cause_ of Energy Consumption, though. Perhaps they exist dialectically in a 'chicken or the egg'-type of causality dilemma. Either way -  I'm not going to even come close to claiming _any_ *causality* with this exercise, but do find it slightly amusing that a linear model with potentially highly correlated variables could lead to an unsolvable paradox (or more likely, an endless argment).
 
 
 All three of these outlier states rank in the top 8 least % of House and Senate voting on environmental law. Could it be that legislation is a better predictor of energy consumption than metropolitan population? Again, that could simply be a _result_ rather than strong explanatory variable - respective states' legislative bodies voting to maintain constituencies.
 
-Given that the lowest populations are consuming the most energy - I'm going to venture that industry is what accounts for the outlier spikes, rather than everyday citizens. 
+Given that the lowest populations are consuming the most energy - I'm going to venture that industry is what accounts for the outlier spikes, rather than everyday citizens. For `toxics` to be released in large quantities as each of these outlier states do, civilian consumption would not seem to cut it. 
 
 ## Correlation Plot 
 
@@ -155,12 +155,13 @@ corrplot(states.cor)
 a standard method yields:
 ![corrplot01](plots/cor-statesdata-01.png)
 
-Method: Shade
+
 ``` r
 par(mfrow = c(1, 1), mar = c(12, 6, 8, 20), family = "Arial Rounded MT Bold")
 corrplot(states.cor, method = "shade", shade.col = NA, tl.col = "firebrick3", 
          tl.srt = 45, tl.cex = 1.0)
 ``` 
+Method: Shade
 
 ![corrplot01](plots/cor-statesdata-02.png)
 
