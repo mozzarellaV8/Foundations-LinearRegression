@@ -117,6 +117,8 @@ Given that the lowest populations are consuming the most energy - I'm going to v
 
 ## Correlation Plot 
 
+#### pre-processing
+
 Before fitting a model with variaables of my own choosing, I'd like to do 
 a correlation plot to see what relationships exist between the independent variables.
 
@@ -142,6 +144,30 @@ states.cov <- round(states.cov, digits = 2)
 write.table(states.cor, file = "state_cor.csv", sep = ",", row.names = T)
 write.table(states.var, file = "state_variance.csv", sep = ",", row.names = T)
 write.table(states.cov, file = "state_covariance.csv", sep = ",", row.names = T)
+
+#### plotting
+
+``` r
+par(mfrow = c(1, 1), mar = c(8, 8, 6, 12), family = "Arial Rounded MT Bold")
+corrplot(states.cor)
+```
+
+a standard method yields:
+![corrplot01](plots/cor-statesdata-01.png)
+
+Method: Shade
+``` r
+par(mfrow = c(1, 1), mar = c(12, 6, 8, 20), family = "Arial Rounded MT Bold")
+corrplot(states.cor, method = "shade", shade.col = NA, tl.col = "firebrick3", 
+         tl.srt = 45, tl.cex = 1.0)
+``` 
+Order: hclust
+
+``` r
+par(mfrow = c(1, 1), mar = c(12, 6, 8, 20), family = "Arial Rounded MT Bold")
+corrplot(states.cor, method = "ellipse", order = "hclust", hclust.method = "ward.D",
+         tl.col = "firebrick3", tl.srt = 45, tl.cex = 1.0)
+
 ```
 
 
