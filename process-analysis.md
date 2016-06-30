@@ -4,7 +4,7 @@ _Student work in R_
 
 ## Instructions
 
-#### Exercise: least squares regression
+## Exercise: least squares regression
 
 Use the /states.rds/ data set. Fit a model predicting energy consumed per capita (energy) from the percentage of residents living in metropolitan areas (metro). Be sure to
 
@@ -22,16 +22,16 @@ And information about the variables:
 
 ![attributes](plots/sampledata02.png)
 
-#### Process and Analysis
+## Process and Analysis
 
-###### load data ---------
+#### load data ---------
 OK! Let's load the data into R. 
 
 `states.data` contains the qualitative information on each US State across 21 variables. There is one categorical variable - `region` - which groups each state into one of four regions across the country (e.g. 'North East, Midwest'). 
 
 `states.info` is the other dataset provided - this contains attribute details for each of the 21 variables in `states.data`. 
 
-###### preliminary correlation test and plotting
+#### preliminary correlation test and plotting
 
 We'll be taking a look at the relationship between Energy Consumption by State, and the percentage of the population living in Metropolitan Areas. A naive intuition might suggest there's a correlation between the two - the more people there are living in cities, the more power will be used or consumed. 
 
