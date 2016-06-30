@@ -74,6 +74,8 @@ While we don't have a linear model yet - I think it's interesting to note the pr
 
 ## Model 01 - Energy ~ Metropolitan
 
+Let's run it. 
+
 ``` r
 energy.metro.mod <- lm(energy ~ metro, data = states.data)
 summary(energy.metro.mod)
@@ -89,9 +91,11 @@ The R-Squared values also appear to suggest a weak relationship:
 
 	# Multiple R-squared:  0.1154,	Adjusted R-squared:  0.097 
 
+So maybe thinking that people in cities result for the bulk of a state's energy consumption is more of a conventional wisdom that strong correlation. A plot of the model to explore further and see if anything was missed in the assumptions. 
+
 ![lm plot](plots/03-energy.metro.mod.jpeg)
 
-And thought I'd return to the original ggplot and add a linear model line, as well as some annotations on the outliers and two extreme values. 
+Additionally I thought I'd return to the original ggplot and add a linear model line and some annotations on the outliers and two extreme values within the confidence region. My thinking here is that there might be clues to a stronger predictor of energy consumption in the outlier attributes. 
 
 ![lm plot annotated](plots/02-energy.model-lm-anno-02.png)
 
