@@ -59,17 +59,20 @@ plot(metro.energy, xlab = "Metropolitan area population, %",
 library(ggplot2)
 
 metro.energyP1 <- ggplot(metro.energy, aes(metro, energy)) + theme_minimal() +
-  geom_point(aes(color = energy), size = 5, shape = 19) +
+  geom_point(aes(color = energy), size = 4, shape = 19) +
   ggtitle("Energy Consumption ~ Metropolitan Population %, US") +
   theme(plot.title = element_text(family = "Times", face = "bold", size = 20)) +
   labs(x = "Metropolitan area population, %", y = "Per capita energy consumed, BTU") +
-  theme(axis.title.x = element_text(family = "Times", face = "italic", size = 16)) +
-  theme(axis.title.y = element_text(family = "Times", face = "italic", size = 16)) +
-  theme(axis.text.x = element_text(family = "Times", face = "plain", size = 12)) +
-  theme(axis.text.y = element_text(family = "Times", face = "plain", size = 12)) +
+  theme(axis.title.x = element_text(family = "Times", face = "italic", size = 14)) +
+  theme(axis.title.y = element_text(family = "Times", face = "italic", size = 14)) +
+  theme(axis.text.x = element_text(family = "Times", face = "plain", size = 11)) +
+  theme(axis.text.y = element_text(family = "Times", face = "plain", size = 11)) +
   theme(plot.margin = unit(c(3, 3, 3, 3), "cm"))
 
 metro.energyP1
+
+install.packages("corrplot")
+library(corrplot)
 
 # model 01 - Energy ~ Metropolitan --------------------------------------------
 
