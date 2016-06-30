@@ -234,3 +234,6 @@ plot(states.data$energy, states.data$green)
 # area percentage. But my intuition again says that cause and effect, while they 
 # cannot be definitely inferred, are still too confused using these variables.
 # I.E., greenhouse gas emissions could be a result of energy consumption.
+
+
+
