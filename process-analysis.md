@@ -91,7 +91,9 @@ The R-Squared values also appear to suggest a weak relationship:
 
 	# Multiple R-squared:  0.1154,	Adjusted R-squared:  0.097 
 
-So maybe thinking that people in cities result for the bulk of a state's energy consumption is more of a conventional wisdom that strong correlation. A plot of the model to explore further and see if anything was missed in the assumptions. 
+So maybe thinking that people in cities result for the bulk of a state's energy consumption is more of a 'conventional wisdom' than strong or actual correlation. It'd be naive to think the entire country existed in a strictly-divided city/country or urban/rural contrast. 
+
+I plotteed of the model to explore further and see if anything was missed in the assumptions implicit in least squares regression. 
 
 ![lm plot](plots/03-energy.metro.mod.jpeg)
 
