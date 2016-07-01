@@ -196,9 +196,11 @@ corrplot(states.cor, method = "ellipse", is.corr = FALSE, tl.col = "Firebrick3",
 corrplot(states.cor, method = "ellipse", is.corr = FALSE, tl.col = "Firebrick3",
          tl.srt = 45, tl.cex = 1.0, order = "FPC")
 
+# Model
 
-
-
+model <- lm(energy ~ region + toxic, data = states.data)
+step(model)
+summary(model)
 
 
 
