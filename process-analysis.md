@@ -234,4 +234,6 @@ energy.green.plot
 
 So this model appears to be stronger than the original model using Metropolitan percentage. But my intuition again says that cause and effect, while they cannot be definitely inferred, are still too confused using these variables. I.E., greenhouse gas emissions could be a result of energy consumption, rather than an explanation for it.
 
+``` r
 anova(energy.metro.mod, toxic.green.model)
+```
