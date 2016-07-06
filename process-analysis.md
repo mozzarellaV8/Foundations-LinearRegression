@@ -137,11 +137,6 @@ states.q$state <- NULL
 states.cor <- cor(states.q, use = "complete.obs")
 states.cor <- round(states.cor, digits = 2)
 
-states.var <- var(states.q, use = "complete.obs")
-states.var <- round(states.var, digits = 2)
-
-states.cov <- cov(states.q, use = "complete.obs")
-states.cov <- round(states.cov, digits = 2)
 ```
 
 Now with variance and covariance tables, perhaps we can look into those too for clues. 
