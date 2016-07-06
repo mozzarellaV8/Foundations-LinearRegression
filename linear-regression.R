@@ -160,17 +160,8 @@ states.q$state <- NULL
 states.cor <- cor(states.q, use = "complete.obs")
 states.cor <- round(states.cor, digits = 2)
 
-states.var <- var(states.q, use = "complete.obs")
-states.var <- round(states.var, digits = 2)
-
-states.cov <- cov(states.q, use = "complete.obs")
-states.cov <- round(states.cov, digits = 2)
-
 # let's keep these tables handy
 write.table(states.cor, file = "state_cor.csv", sep = ",", row.names = T)
-write.table(states.var, file = "state_variance.csv", sep = ",", row.names = T)
-write.table(states.cov, file = "state_covariance.csv", sep = ",", row.names = T)
-
 
 library(corrplot)
 library(extrafontdb)
@@ -192,17 +183,10 @@ corrplot(states.cor, method = "ellipse", order = "hclust", hclust.method = "ward
 
 # ellipse
 corrplot(states.cor, method = "ellipse", is.corr = FALSE, tl.col = "Firebrick3",
-         tl.srt = 45, tl.cex = 1.0, order = "alphabet")
-corrplot(states.cor, method = "ellipse", is.corr = FALSE, tl.col = "Firebrick3",
          tl.srt = 45, tl.cex = 1.0, order = "FPC")
 
-# Model
-
-model <- lm(energy ~ region + toxic, data = states.data)
-step(model)
-summary(model)
-
-
+# OK - so the main problem with this correlation plot is that I removed the categorical variable
+# region - which might actually be the strongest predictor of energy consumption in this dataset. 
 
 # Revisiting my first intuitions - particularly on why Alaska
 # might be a leader in energy consumption - got me to think about
@@ -272,6 +256,18 @@ plot(states.data$energy, states.data$green)
 # area percentage. But my intuition again says that cause and effect, while they 
 # cannot be definitely inferred, are still too confused using these variables.
 # I.E., greenhouse gas emissions could be a result of energy consumption.
+
+# Exercise Part 2 -------------------------------------------------------------
+## Exercise: interactions and factors
+## ────────────────────────────────────────
+
+##   Use the states data set.
+
+##   1. Add on to the regression equation that you created in exercise 1 by
+##      generating an interaction term and testing the interaction.
+
+##   2. Try adding region to the model. Are there significant differences
+##      across the four regions?
 
 
 
