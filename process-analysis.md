@@ -213,6 +213,7 @@ energy.toxic.plot
 
 ![energy ~ toxic plot](plots/04.energy.toxic.mod-01.png)
 
+``` r
 energy.green.plot <- ggplot(states.data, aes(green, energy)) +
   theme_minimal() +
   geom_point(aes(color = green), size = 4.75, shape = 17) +
@@ -227,6 +228,7 @@ energy.green.plot <- ggplot(states.data, aes(green, energy)) +
   theme(plot.margin = unit(c(3, 3, 3, 3), "cm"))
 
 energy.green.plot
+```
 
 ![energy ~ green plot](plots/04.energy.green.mod-01.png)
 
