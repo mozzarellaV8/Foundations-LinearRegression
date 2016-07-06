@@ -53,6 +53,8 @@ Per capita energy consumption and % of population living in metropolitan areas a
 
 Adriene-Marie Legendre was a French mathematician credited as the inventor of the Least Squares method. In the only surviving picture of him, he appears to be less than content but with an active head of hair. Not pictured in the rest of this caricature drawing is a portrait of a contented, seemingly well-fed Joseph Fourier. The unfinished caricature suggests they were in the same room. Surrounding each portrait are pencilled-in mathematical equations, which appear to grow in complexity with their proximity to Fourier. 
 
+![Legendre and Fourier](plots/legendre_fourier.jpg)
+
 
 
 
