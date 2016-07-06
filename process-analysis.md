@@ -147,16 +147,6 @@ corrplot(states.cor)
 a standard method yields:
 ![corrplot01](plots/cor-statesdata-01.png)
 
-
-``` r
-par(mfrow = c(1, 1), mar = c(12, 6, 8, 20), family = "Arial Rounded MT Bold")
-corrplot(states.cor, method = "shade", shade.col = NA, tl.col = "firebrick3", 
-         tl.srt = 45, tl.cex = 1.0)
-``` 
-Method: Shade
-
-![corrplot01](plots/cor-statesdata-02.png)
-
 Order: hclust
 
 ``` r
