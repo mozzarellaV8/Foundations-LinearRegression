@@ -150,6 +150,86 @@ corrplot(states.cor, method = "ellipse", order = "hclust", hclust.method = "ward
 
 ![corrplot01](plots/cor-statesdata-03-hclustEllipse.png)
 
+Looking at the correlation matrix, we can see the strongest uphill correlations to `energy` in `toxic` and `green`, while seeing the strongest downhill correlations in `house`	 and `senate`. 
 
+## Model 02 - Energy ~ Toxics + Green
 
+My initial thought was to test the independent variables `toxic`, `green`, and `waste` together with `metro`. 
 
+``` r
+summary(lm(energy ~ waste + toxic + green + metro, data = states.data))
+# Coefficients:
+#               Estimate Std. Error t value Pr(>|t|)    
+#  (Intercept) 150.3571    49.6130   3.031  0.00412 ** 
+#  waste        13.3368    41.9194   0.318  0.75191    
+#  toxic         2.6957     0.4852   5.556 1.61e-06 ***
+#  green         4.8176     0.5908   8.154 2.87e-10 ***
+#  metro         0.1831     0.4718   0.388  0.69984   
+```
+
+After seeing these results, I'm going to eliminate the `waste` and `metro` variables to see how strong of a model can be built. 
+
+``` r
+toxic.green.model <- lm(energy ~ toxic + green, data = states.data)
+summary(toxic.green.model)
+#   Coefficients:
+#              Estimate Std. Error t value Pr(>|t|)    
+#  (Intercept) 179.8260    16.1194  11.156 1.51e-14 ***
+#  toxic         2.6455     0.4676   5.657 1.01e-06 ***
+#  green         4.6722     0.5336   8.756 2.81e-11 ***
+
+#   Multiple R-squared:  0.7627,	Adjusted R-squared:  0.7521
+```
+
+This model has the highest R-squared and coefficient significance yet. Could it be that toxic and green are too highly correlated, or exhibiting multicolllinearity? Also, could energy consumption and greenhouse gas emissions be too correlated? 
+
+``` r
+cor(states.data$toxic, states.data$green, use = "pairwise")
+# 0.2622973
+cor(states.data$toxic, states.data$energy, use = "pairwise")
+# 0.5624524
+cor(states.data$green, states.data$energy, use = "pairwise")
+# 0.7706181
+```
+
+Let's plot and take a look:
+
+``` r
+energy.toxic.plot <- ggplot(states.data, aes(toxic, energy)) +
+  theme_minimal() +
+  geom_point(aes(color = toxic), size = 4.75, shape = 17) +
+  stat_smooth(method = lm, se = FALSE, colour = "#CD2626") +
+  ggtitle("Energy Consumption ~ Per capita toxics released (US)") +
+  theme(plot.title = element_text(family = "Times", face = "bold", size = 18)) +
+  labs(x = "Per capita toxics released, lbs.", y = "Per capita energy consumed, BTU") +
+  theme(axis.title.x = element_text(family = "Times", face = "italic", size = 14)) +
+  theme(axis.title.y = element_text(family = "Times", face = "italic", size = 14)) +
+  theme(axis.text.x = element_text(family = "Times", face = "plain", size = 11)) +
+  theme(axis.text.y = element_text(family = "Times", face = "plain", size = 11)) +
+  theme(plot.margin = unit(c(3, 3, 3, 3), "cm"))
+
+energy.toxic.plot
+```
+
+![energy ~ toxic plot](plots/04.energy.toxic.mod-01.png)
+
+energy.green.plot <- ggplot(states.data, aes(green, energy)) +
+  theme_minimal() +
+  geom_point(aes(color = green), size = 4.75, shape = 17) +
+  stat_smooth(method = lm, se = FALSE, colour = "#CD2626") +
+  ggtitle("Energy Consumption ~ Per capita greenhouse gas (US)") +
+  theme(plot.title = element_text(family = "Times", face = "bold", size = 18)) +
+  labs(x = "Per capita greenhouse gas, tons", y = "Per capita energy consumed, BTU") +
+  theme(axis.title.x = element_text(family = "Times", face = "italic", size = 14)) +
+  theme(axis.title.y = element_text(family = "Times", face = "italic", size = 14)) +
+  theme(axis.text.x = element_text(family = "Times", face = "plain", size = 11)) +
+  theme(axis.text.y = element_text(family = "Times", face = "plain", size = 11)) +
+  theme(plot.margin = unit(c(3, 3, 3, 3), "cm"))
+
+energy.green.plot
+
+![energy ~ green plot](plots/04.energy.green.mod-01.png)
+
+So this model appears to be stronger than the original model using Metropolitan percentage. But my intuition again says that cause and effect, while they cannot be definitely inferred, are still too confused using these variables. I.E., greenhouse gas emissions could be a result of energy consumption, rather than an explanation for it.
+
+anova(energy.metro.mod, toxic.green.model)
