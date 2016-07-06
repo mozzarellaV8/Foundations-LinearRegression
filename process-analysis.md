@@ -2,6 +2,18 @@
 
 _Student work in R_
 
+- [Least Squares Regression]
+- [Process and Analysis]
+- [Loading State Data and Info]
+- [Preliminary: Correlation Test and Plotting]
+- [Model 01: Energy ~ Metropolitan]
+- [Outlier Commentary]
+- [Correlation Plot]
+- [Model 02: Energy ~ Toxic + Green]
+- [Using AIC]
+- [Interactions and Factors]
+- [Conclusion](#conclusion)
+ 
 ## Least Squares Regression
 
 _instructions per this [tutorial](http://tutorials.iq.harvard.edu/R/Rstatistics/Rstatistics.html#orgheadline16)_
@@ -243,7 +255,7 @@ toxic         1.703605   3.587324
 green         3.597436   5.747016
 ```
 
-#### Using AIC to choose variables 
+#### Using AIC to choose a model
 
 Just as another 'check', I thought I'd try using `step()` and the Akaike Information Criterion for model selection. First to clean up some of the data - dealing with factors.
 
@@ -402,8 +414,8 @@ anova(energy.region)
 
 ## Conclusion
 
-The only region not included in the coefficients is the West. This wikipedia [article](https://en.wikipedia.org/wiki/Energy_in_the_United_States#Regional_variation) also cites region a highly variable factor in household energy consumption - particularly, with much lower consumption in Western states due to less extremes in climate. Also mentioned in this portion of the article are state laws in regard to environmental laws - citing that California has the strictest laws in place, suggesting a reason for the lower energy consumption. This would be consistent with the `house` and `senate` environmental voting variables that were correlated with energy consumption from earlier.
+From the `energy.region` model above, we see the only region not included in the coefficients is the West. This wikipedia [article](https://en.wikipedia.org/wiki/Energy_in_the_United_States#Regional_variation) also cites region a highly variable factor in household energy consumption - particularly, with much lower consumption in Western states due to less extremes in climate. Also mentioned in this portion of the article are state laws in regard to environmental laws - citing that California has the strictest laws in place, suggesting a reason for the lower energy consumption. This would be consistent with the `house` and `senate` environmental voting variables that were correlated with energy consumption from earlier.
 
-Looking back to the energy outliers [Alaska](http://www.eia.gov/state/?sid=AK), [Lousiana](http://www.eia.gov/state/?sid=LA), and [Wyoming](http://www.eia.gov/state/?sid=WY), we see that they are leaders in the production of Oil, Crude Oil/Natural Gas, and Coal, respectively. Being major industries for these states, it makes sense that their `house` and `senate` voting patterns on environmental law would be consistent with more lax environmental standards.
+Looking back to the energy outliers [Alaska](http://www.eia.gov/state/?sid=AK), [Lousiana](http://www.eia.gov/state/?sid=LA), and [Wyoming](http://www.eia.gov/state/?sid=WY), we see that they are leaders in the production of Oil, Crude Oil/Natural Gas, and Coal, respectively. Being major industries for these states, it makes sense that their `house` and `senate` voting patterns on environmental law would be consistent with more lax environmental standards. 
 
-While these states were outliers in that they are leaders in energy production(which costs energy to do), it might be interesting to see where the energy they produce is used/distributed across the states.
+While these states were outliers in that they are leaders in energy production(which costs energy to do), it might be interesting to see where the energy they produce is used and distributed across the states.
