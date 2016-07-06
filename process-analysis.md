@@ -2,16 +2,15 @@
 
 _Student work in R_
 
-- [Least Squares Regression]
-- [Process and Analysis]
-- [Loading State Data and Info]
-- [Preliminary: Correlation Test and Plotting]
-- [Model 01: Energy ~ Metropolitan]
-- [Outlier Commentary]
-- [Correlation Plot]
-- [Model 02: Energy ~ Toxic + Green]
-- [Using AIC]
-- [Interactions and Factors]
+- [Least Squares Regression](#least-squares-regression)
+- [Process and Analysis](#process-and-analysis)
+- [Preliminary: Correlation Test and Plotting](#preliminary-correlation-test-and-plotting)
+- [Model 01: Energy ~ Metropolitan](#model-01---energy--metropolitan)
+- [Outlier Commentary](#outlier-commentary)
+- [Correlation Plot](#correlation-plot)
+- [Model 02: Energy ~ Toxic + Green](#model-02---energy--toxics--green)
+- [Using AIC](#using-aic-to-choose-a-model)
+- [Interactions and Factors](#exercise-part-2-interactions-and-factors)
 - [Conclusion](#conclusion)
  
 ## Least Squares Regression
@@ -255,7 +254,7 @@ toxic         1.703605   3.587324
 green         3.597436   5.747016
 ```
 
-#### Using AIC to choose a model
+## Using AIC to choose a model
 
 Just as another 'check', I thought I'd try using `step()` and the Akaike Information Criterion for model selection. First to clean up some of the data - dealing with factors.
 
