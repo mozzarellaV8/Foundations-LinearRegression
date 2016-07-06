@@ -150,7 +150,7 @@ corrplot(states.cor, method = "ellipse", order = "hclust", hclust.method = "ward
 
 ![corrplot01](plots/cor-statesdata-03-hclustEllipse.png)
 
-Looking at the correlation matrix, we can see the strongest uphill correlations to `energy` in `toxic` and `green`, while seeing the strongest downhill correlations in `house`	 and `senate`. 
+Looking at the correlation matrix, we can see the strongest uphill correlations to `energy` in `toxic` and `green`, while seeing the strongest downhill correlations in `house`	 and `senate`. s
 
 ## Model 02 - Energy ~ Toxics + Green
 
@@ -172,6 +172,7 @@ After seeing these results, I'm going to eliminate the `waste` and `metro` varia
 ``` r
 toxic.green.model <- lm(energy ~ toxic + green, data = states.data)
 summary(toxic.green.model)
+
 #   Coefficients:
 #              Estimate Std. Error t value Pr(>|t|)    
 #  (Intercept) 179.8260    16.1194  11.156 1.51e-14 ***
@@ -235,5 +236,174 @@ energy.green.plot
 So this model appears to be stronger than the original model using Metropolitan percentage. But my intuition again says that cause and effect, while they cannot be definitely inferred, are still too confused using these variables. I.E., greenhouse gas emissions could be a result of energy consumption, rather than an explanation for it.
 
 ``` r
-anova(energy.metro.mod, toxic.green.model)
+confint(toxic.green.model)
+                 2.5 %     97.5 %
+(Intercept) 147.359753 212.292223
+toxic         1.703605   3.587324
+green         3.597436   5.747016
 ```
+
+#### Using AIC to choose variables 
+
+Just as another 'check', I thought I'd try using `step()` and the Akaike Information Criterion for model selection. First to clean up some of the data - dealing with factors.
+
+``` r
+states.factors <- states.data
+states.factors$state <- as.factor(states.factors$state)
+states.factors$state <- NULL
+```
+
+And now to fit the model.
+
+``` r
+model <- lm(energy ~ ., data = states.factors)
+summary(model)
+
+Coefficients: (1 not defined because of singularities)
+                 Estimate Std. Error t value Pr(>|t|)    
+ (Intercept)   -2.363e+02  5.794e+02  -0.408  0.68667    
+ regionN. East  4.008e-01  6.942e+01   0.006  0.99544    
+ regionSouth    7.089e+01  4.717e+01   1.503  0.14445    
+ regionMidwest  4.577e+01  4.300e+01   1.064  0.29658    
+ pop           -2.480e-07  3.866e-06  -0.064  0.94931    
+ area           8.315e-04  3.766e-04   2.208  0.03594 *  
+ density        3.904e-02  9.142e-02   0.427  0.67270    
+ metro          2.549e-01  9.508e-01   0.268  0.79063    
+ waste         -1.449e+01  6.244e+01  -0.232  0.81824    
+ miles          4.013e+00  1.558e+01   0.258  0.79868    
+ toxic          2.510e+00  6.768e-01   3.709  0.00095 ***
+ green          4.527e+00  9.412e-01   4.809 5.08e-05 ***
+ house          1.624e-01  1.010e+00   0.161  0.87340    
+ senate        -8.870e-02  6.475e-01  -0.137  0.89206    
+ csat          -1.719e+00  2.826e+00  -0.608  0.54808    
+ vsat           3.761e+00  5.926e+00   0.635  0.53095    
+ msat                  NA         NA      NA       NA    
+ percent        8.267e-01  1.695e+00   0.488  0.62962    
+ expense        1.455e-02  1.627e-02   0.894  0.37915    
+ income         2.941e-01  4.679e+00   0.063  0.95034    
+ high           3.301e+00  4.806e+00   0.687  0.49802    
+ college       -6.965e+00  6.358e+00  -1.096  0.28296    
+
+ Multiple R-squared:  0.8379,  Adjusted R-squared:  0.7178 
+ F-statistic: 6.978 on 20 and 27 DF,  p-value: 3.173e-06
+```
+
+Toxic and green again show up as the strongest independent variables. 
+
+``` r
+aic <- step(model)
+summary(aic)
+```
+
+This didn't really look great. What about getting rid of half the variables related to college testing, that don't seem to be relevant?
+
+``` r
+states.factors$college <- NULL
+states.factors$msat <- NULL
+states.factors$vsat <- NULL
+states.factors$csat <- NULL
+states.factors$expense <- NULL
+states.factors$percent <- NULL
+states.factors$high <- NULL
+
+model02 <- lm(energy ~ ., data = states.factors)
+summary(model02)
+```
+
+Significant coefficients again are toxic and green. Of less significance are area and just barely - regionSouth.
+
+``` r
+aic02 <- step(model02)
+ Step:  AIC=391.48
+ energy ~ region + area + toxic + green
+
+              Df Sum of Sq    RSS    AIC
+     - region  3     16412 141324 391.41
+     <none>                124912 391.48
+     - area    1     17972 142884 395.93
+     - toxic   1     77706 202618 412.70
+     - green   1    238288 363200 440.71
+
+  Step:  AIC=391.41
+  energy ~ area + toxic + green
+
+            Df Sum of Sq    RSS    AIC
+    <none>               141324 391.41
+    - area   1     11258 152582 393.08
+    - toxic  1     99897 241221 415.07
+    - green  1    237987 379311 436.80
+  ```
+
+With college test and high school expense variables removed, we have the lowest AIC values again in the toxic, green, and area variables. 
+
+```r
+step(toxic.green.model)
+    Start:  AIC=393.08
+    energy ~ toxic + green
+
+           Df Sum of Sq    RSS    AIC
+    <none>               152582 393.08
+    - toxic  1    108514 261096 416.87
+    - green  1    259929 412511 438.82
+```
+
+Our original model using `metro` as an estimator of `energy` consumption comes in with a much higher AIC value.   
+
+``` r
+step(energy.metro.mod)
+    Start:  AIC=496.25
+    energy ~ metro
+
+            Df Sum of Sq     RSS    AIC
+    <none>                943103 496.25
+    - metro  1    123064 1066166 500.38
+```
+
+## Exercise Part 2: Interactions and Factors
+
+_instructions:_
+
+Use the states data set.
+
+1. Add on to the regression equation that you created in exercise 1 by generating an interaction term and testing the interaction.
+
+2. Try adding region to the model. Are there significant differences across the four regions?
+
+``` r
+toxic.green.interaction <- lm(energy ~ (toxic + green)*area, data = states.data)
+summary(toxic.green.interaction)
+```
+
+``` r
+toxic.green.region <- lm(energy ~ toxic+green+region, data = states.data)
+summary(toxic.green.region)
+```
+
+```
+levels(states.data$region)
+"West"    "N. East" "South"   "Midwest"
+
+energy.region <- lm(energy ~ region, data = states.data)
+summary(energy.region)
+ Coefficients:
+                      Estimate Std. Error t value Pr(>|t|)    
+       (Intercept)     405.62      39.23  10.339  1.4e-13 ***
+       regionN. East  -156.50      61.34  -2.552   0.0141 *  
+       regionSouth     -25.49      52.82  -0.483   0.6317    
+       regionMidwest   -61.62      56.63  -1.088   0.2822  
+```
+
+```r
+anova(energy.region)
+           Df Sum Sq Mean Sq F value  Pr(>F)  
+ region     3 145757   48586  2.4282 0.07737 .
+ Residuals 46 920410   20009   
+```
+
+## Conclusion
+
+The only region not included in the coefficients is the West. This wikipedia [article](https://en.wikipedia.org/wiki/Energy_in_the_United_States#Regional_variation) also cites region a highly variable factor in household energy consumption - particularly, with much lower consumption in Western states due to less extremes in climate. Also mentioned in this portion of the article are state laws in regard to environmental laws - citing that California has the strictest laws in place, suggesting a reason for the lower energy consumption. This would be consistent with the `house` and `senate` environmental voting variables that were correlated with energy consumption from earlier.
+
+Looking back to the energy outliers [Alaska](http://www.eia.gov/state/?sid=AK), [Lousiana](http://www.eia.gov/state/?sid=LA), and [Wyoming](http://www.eia.gov/state/?sid=WY), we see that they are leaders in the production of Oil, Crude Oil/Natural Gas, and Coal, respectively. Being major industries for these states, it makes sense that their `house` and `senate` voting patterns on environmental law would be consistent with more lax environmental standards.
+
+While these states were outliers in that they are leaders in energy production(which costs energy to do), it might be interesting to see where the energy they produce is used/distributed across the states.
