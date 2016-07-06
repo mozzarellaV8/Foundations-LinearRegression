@@ -139,10 +139,6 @@ states.cor <- round(states.cor, digits = 2)
 
 ```
 
-Now with variance and covariance tables, perhaps we can look into those too for clues. 
-
-#### plotting
-
 ``` r
 par(mfrow = c(1, 1), mar = c(8, 8, 6, 12), family = "Arial Rounded MT Bold")
 corrplot(states.cor)
