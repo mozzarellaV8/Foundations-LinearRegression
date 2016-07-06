@@ -204,14 +204,13 @@ corrplot(states.cor, method = "ellipse", is.corr = FALSE, tl.col = "Firebrick3",
 
 # Model 02 - Energy ~ Toxics + Green ------------------------------------------
 
-summary(lm(energy ~ waste + toxic + green + metro, data = states.data))
+summary(lm(energy ~ waste + toxic + green, data = states.data))
 # Coefficients:
 #               Estimate Std. Error t value Pr(>|t|)    
-#  (Intercept) 150.3571    49.6130   3.031  0.00412 ** 
-#  waste        13.3368    41.9194   0.318  0.75191    
-#  toxic         2.6957     0.4852   5.556 1.61e-06 ***
-#  green         4.8176     0.5908   8.154 2.87e-10 ***
-#  metro         0.1831     0.4718   0.388  0.69984   
+#  (Intercept) 157.4614    45.6658   3.448  0.00125 ** 
+#  waste        19.9039    37.9809   0.524  0.60287    
+#  toxic         2.6940     0.4805   5.607 1.27e-06 ***
+#  green         4.7469     0.5565   8.529 7.10e-11 ***
 
 # I'm going to eliminate the waste variable.
 
@@ -236,6 +235,8 @@ cor(states.data$toxic, states.data$energy, use = "pairwise")
 # 0.5624524
 cor(states.data$green, states.data$energy, use = "pairwise")
 # 0.7706181
+
+# The most highly correlated are `Energy` and `Green`.
 
 par(mfrow = c(1, 1), mar = c(6, 6, 6, 6))
 plot(states.data$energy, states.data$toxic)
@@ -287,6 +288,8 @@ anova(energy.metro.mod, toxic.green.model)
 
 # Using AIC to choose variables -----------------------------------------------
 
+library(MASS)
+
 states.factors <- states.data
 states.factors$state <- as.factor(states.factors$state)
 states.factors$state <- NULL
@@ -294,8 +297,9 @@ states.factors$state <- NULL
 model <- lm(energy ~ ., data = states.factors)
 summary(model)
 
+
 # Coefficients: (1 not defined because of singularities)
-# Estimate Std. Error t value Pr(>|t|)    
+#                 Estimate Std. Error t value Pr(>|t|)    
 # (Intercept)   -2.363e+02  5.794e+02  -0.408  0.68667    
 # regionN. East  4.008e-01  6.942e+01   0.006  0.99544    
 # regionSouth    7.089e+01  4.717e+01   1.503  0.14445    
@@ -327,6 +331,64 @@ summary(model)
 aic <- step(model)
 summary(aic)
 
+# This doesn't really look great. What about getting rid of half the variables
+# related to college testing, that don't seem to be relevant?
+
+states.factors$college <- NULL
+states.factors$msat <- NULL
+states.factors$vsat <- NULL
+states.factors$csat <- NULL
+states.factors$expense <- NULL
+states.factors$percent <- NULL
+states.factors$high <- NULL
+
+model02 <- lm(energy ~ ., data = states.factors)
+summary(model02)
+
+# Significant coefficients again are toxic and green. Of less significance are
+# area and just barely - regionSouth.
+
+aic02 <- step(model02)
+# Step:  AIC=391.48
+# energy ~ region + area + toxic + green
+
+#          Df Sum of Sq    RSS    AIC
+# - region  3     16412 141324 391.41
+# <none>                124912 391.48
+# - area    1     17972 142884 395.93
+# - toxic   1     77706 202618 412.70
+# - green   1    238288 363200 440.71
+
+# Step:  AIC=391.41
+# energy ~ area + toxic + green
+
+#          Df Sum of Sq    RSS    AIC
+#  <none>               141324 391.41
+#  - area   1     11258 152582 393.08
+#  - toxic  1     99897 241221 415.07
+#  - green  1    237987 379311 436.80
+
+# With college test and high school expense variables removed, we have 
+# the lowest AIC values again in the toxic, green, and area variables. 
+
+aicToxicGreen <- step(toxic.green.model)
+# Start:  AIC=393.08
+# energy ~ toxic + green
+
+#           Df Sum of Sq    RSS    AIC
+#   <none>               152582 393.08
+#   - toxic  1    108514 261096 416.87
+#   - green  1    259929 412511 438.82
+
+step(energy.metro.mod)
+# Start:  AIC=496.25
+# energy ~ metro
+
+#         Df Sum of Sq     RSS    AIC
+# <none>                943103 496.25
+# - metro  1    123064 1066166 500.38
+
+
 # Exercise Part 2 -------------------------------------------------------------
 ## Exercise: interactions and factors
 
@@ -338,7 +400,6 @@ summary(aic)
 ##   2. Try adding region to the model. Are there significant differences
 ##      across the four regions?
 
-
 toxic.green.interaction <- lm(energy ~ (toxic + green)*area, data = states.data)
 summary(toxic.green.interaction)
 
@@ -347,6 +408,7 @@ summary(toxic.green.region)
 
 levels(states.data$region)
 #  "West"    "N. East" "South"   "Midwest"
+
 energy.region <- lm(energy ~ region, data = states.data)
 summary(energy.region)
 # Coefficients:
@@ -363,7 +425,3 @@ anova(energy.region)
 #           Df Sum Sq Mean Sq F value  Pr(>F)  
 # region     3 145757   48586  2.4282 0.07737 .
 # Residuals 46 920410   20009   
-
-
-
-
