@@ -213,6 +213,8 @@ summary(lm(energy ~ waste + toxic + green + metro, data = states.data))
 #  green         4.8176     0.5908   8.154 2.87e-10 ***
 #  metro         0.1831     0.4718   0.388  0.69984   
 
+# I'm going to eliminate the waste variable.
+
 toxic.green.model <- lm(energy ~ toxic + green, data = states.data)
 summary(toxic.green.model)
 #   Coefficients:
@@ -228,34 +230,54 @@ summary(toxic.green.model)
 # exhibiting multicolllinearity? Also, could energy consumption and 
 # greenhouse gas emissions be too correlated? 
 
-cor(states.data$toxic, states.data$green)
-toxic.greenhouse <- subset(states.data, select = c("toxic", "green"))
-cor(na.omit(toxic.greenhouse))
-#           toxic     green
-# toxic 1.0000000 0.2622973
-# green 0.2622973 1.0000000
-
-energy.green <- subset(states.data, select = c("energy", "green"))
-cor(na.omit(energy.green))
-#           energy     green
-# energy 1.0000000 0.7706181
-# green  0.7706181 1.0000000
-
-energy.toxic <- subset(states.data, select = c("energy", "toxic"))
-cor(na.omit(energy.toxic))
-#           energy     toxic
-# energy 1.0000000 0.5624524
-# toxic  0.5624524 1.0000000
+cor(states.data$toxic, states.data$green, use = "pairwise")
+# 0.2622973
+cor(states.data$toxic, states.data$energy, use = "pairwise")
+# 0.5624524
+cor(states.data$green, states.data$energy, use = "pairwise")
+# 0.7706181
 
 par(mfrow = c(1, 1), mar = c(6, 6, 6, 6))
-plot(toxic.greenhouse)
 plot(states.data$energy, states.data$toxic)
 plot(states.data$energy, states.data$green)
+
+energy.toxic.plot <- ggplot(states.data, aes(toxic, energy)) +
+  theme_minimal() +
+  geom_point(aes(color = toxic), size = 4.75, shape = 17) +
+  stat_smooth(method = lm, se = FALSE, colour = "#CD2626") +
+  ggtitle("Energy Consumption ~ Per capita toxics released (US)") +
+  theme(plot.title = element_text(family = "Times", face = "bold", size = 18)) +
+  labs(x = "Per capita toxics released, lbs.", y = "Per capita energy consumed, BTU") +
+  theme(axis.title.x = element_text(family = "Times", face = "italic", size = 14)) +
+  theme(axis.title.y = element_text(family = "Times", face = "italic", size = 14)) +
+  theme(axis.text.x = element_text(family = "Times", face = "plain", size = 11)) +
+  theme(axis.text.y = element_text(family = "Times", face = "plain", size = 11)) +
+  theme(plot.margin = unit(c(3, 3, 3, 3), "cm"))
+
+energy.toxic.plot
+
+energy.green.plot <- ggplot(states.data, aes(green, energy)) +
+  theme_minimal() +
+  geom_point(aes(color = green), size = 4.75, shape = 17) +
+  stat_smooth(method = lm, se = FALSE, colour = "#CD2626") +
+  ggtitle("Energy Consumption ~ Per capita greenhouse gas (US)") +
+  theme(plot.title = element_text(family = "Times", face = "bold", size = 18)) +
+  labs(x = "Per capita greenhouse gas, tons", y = "Per capita energy consumed, BTU") +
+  theme(axis.title.x = element_text(family = "Times", face = "italic", size = 14)) +
+  theme(axis.title.y = element_text(family = "Times", face = "italic", size = 14)) +
+  theme(axis.text.x = element_text(family = "Times", face = "plain", size = 11)) +
+  theme(axis.text.y = element_text(family = "Times", face = "plain", size = 11)) +
+  theme(plot.margin = unit(c(3, 3, 3, 3), "cm"))
+
+energy.green.plot
 
 # So this model appears to be stronger than the original model using Metropolitan
 # area percentage. But my intuition again says that cause and effect, while they 
 # cannot be definitely inferred, are still too confused using these variables.
-# I.E., greenhouse gas emissions could be a result of energy consumption.
+# I.E., greenhouse gas emissions could be a result of energy consumption,
+# rather than an explanation for it.
+
+anova(energy.metro.mod, toxic.green.model)
 
 # Exercise Part 2 -------------------------------------------------------------
 ## Exercise: interactions and factors
