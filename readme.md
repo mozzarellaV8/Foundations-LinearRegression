@@ -6,8 +6,8 @@ _Student work in R_
 This is an exercise in fitting a linear regression model to data, as part of Springboard's [Foundations of Data Science](https://www.springboard.com/workshops/data-science/learn#1090-data-analysis-in-depth) class. The exercise is adapted from Harvard University's [statistical software workshop](http://tutorials.iq.harvard.edu/R/Rstatistics/Rstatistics.html).
 
 - [Process and Analysis](process-analysis.md)
-- [presentation code](linear-regression-V1.R) - edited from working code
-- [working code](linear-regression.R) - includes all trials and tests
+- [working code with comments](linear-regression.R) - notes for `Process and Analysis`
+- [just the code](LR-straightcode.R) - edited from working code
 - [Data](data)
 
 _Least Squares? Linear Regression?_
