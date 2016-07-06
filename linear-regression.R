@@ -277,11 +277,58 @@ energy.green.plot
 # I.E., greenhouse gas emissions could be a result of energy consumption,
 # rather than an explanation for it.
 
+confint(toxic.green.model)
+#                  2.5 %     97.5 %
+# (Intercept) 147.359753 212.292223
+# toxic         1.703605   3.587324
+# green         3.597436   5.747016
+
 anova(energy.metro.mod, toxic.green.model)
+
+# Using AIC to choose variables -----------------------------------------------
+
+states.factors <- states.data
+states.factors$state <- as.factor(states.factors$state)
+states.factors$state <- NULL
+
+model <- lm(energy ~ ., data = states.factors)
+summary(model)
+
+# Coefficients: (1 not defined because of singularities)
+# Estimate Std. Error t value Pr(>|t|)    
+# (Intercept)   -2.363e+02  5.794e+02  -0.408  0.68667    
+# regionN. East  4.008e-01  6.942e+01   0.006  0.99544    
+# regionSouth    7.089e+01  4.717e+01   1.503  0.14445    
+# regionMidwest  4.577e+01  4.300e+01   1.064  0.29658    
+# pop           -2.480e-07  3.866e-06  -0.064  0.94931    
+# area           8.315e-04  3.766e-04   2.208  0.03594 *  
+# density        3.904e-02  9.142e-02   0.427  0.67270    
+# metro          2.549e-01  9.508e-01   0.268  0.79063    
+# waste         -1.449e+01  6.244e+01  -0.232  0.81824    
+# miles          4.013e+00  1.558e+01   0.258  0.79868    
+# toxic          2.510e+00  6.768e-01   3.709  0.00095 ***
+# green          4.527e+00  9.412e-01   4.809 5.08e-05 ***
+# house          1.624e-01  1.010e+00   0.161  0.87340    
+# senate        -8.870e-02  6.475e-01  -0.137  0.89206    
+# csat          -1.719e+00  2.826e+00  -0.608  0.54808    
+# vsat           3.761e+00  5.926e+00   0.635  0.53095    
+# msat                  NA         NA      NA       NA    
+# percent        8.267e-01  1.695e+00   0.488  0.62962    
+# expense        1.455e-02  1.627e-02   0.894  0.37915    
+# income         2.941e-01  4.679e+00   0.063  0.95034    
+# high           3.301e+00  4.806e+00   0.687  0.49802    
+# college       -6.965e+00  6.358e+00  -1.096  0.28296    
+
+# Multiple R-squared:  0.8379,	Adjusted R-squared:  0.7178 
+# F-statistic: 6.978 on 20 and 27 DF,  p-value: 3.173e-06
+
+# Toxic and green again show up as the strongest independent variables. 
+
+aic <- step(model)
+summary(aic)
 
 # Exercise Part 2 -------------------------------------------------------------
 ## Exercise: interactions and factors
-## ────────────────────────────────────────
 
 ##   Use the states data set.
 
@@ -291,6 +338,31 @@ anova(energy.metro.mod, toxic.green.model)
 ##   2. Try adding region to the model. Are there significant differences
 ##      across the four regions?
 
+
+toxic.green.interaction <- lm(energy ~ (toxic + green)*area, data = states.data)
+summary(toxic.green.interaction)
+
+toxic.green.region <- lm(energy ~ toxic+green+region, data = states.data)
+summary(toxic.green.region)
+
+levels(states.data$region)
+#  "West"    "N. East" "South"   "Midwest"
+energy.region <- lm(energy ~ region, data = states.data)
+summary(energy.region)
+# Coefficients:
+#                      Estimate Std. Error t value Pr(>|t|)    
+#       (Intercept)     405.62      39.23  10.339  1.4e-13 ***
+#       regionN. East  -156.50      61.34  -2.552   0.0141 *  
+#       regionSouth     -25.49      52.82  -0.483   0.6317    
+#       regionMidwest   -61.62      56.63  -1.088   0.2822  
+
+# The only region not included in the coefficients is the West.
+# This wikipedia article seems to also cite that region. 
+
+anova(energy.region)
+#           Df Sum Sq Mean Sq F value  Pr(>F)  
+# region     3 145757   48586  2.4282 0.07737 .
+# Residuals 46 920410   20009   
 
 
 
