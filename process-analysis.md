@@ -139,14 +139,6 @@ states.cor <- round(states.cor, digits = 2)
 
 ```
 
-``` r
-par(mfrow = c(1, 1), mar = c(8, 8, 6, 12), family = "Arial Rounded MT Bold")
-corrplot(states.cor)
-```
-
-a standard method yields:
-![corrplot01](plots/cor-statesdata-01.png)
-
 Order: hclust
 
 ``` r
