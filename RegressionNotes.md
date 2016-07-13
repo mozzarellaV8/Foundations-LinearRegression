@@ -1,7 +1,9 @@
 Regression Models
 -----------------
 
-### Linear Models
+This is an ongoing list of notes taken from the [Harvard Statistical Software Workshop](http://tutorials.iq.harvard.edu/R/Rstatistics/Rstatistics.html) and the book [R in a Nutshell](http://shop.oreilly.com/product/0636920022008.do)
+
+## Linear Models
 
 _outline_
 
@@ -32,7 +34,7 @@ _outline_
 - `influence(model, do.coef = TRUE,...)` - compute influence of different parameters. also: `influence.measures(model)`
  
 
-###### Least Squares Regression 
+#### Least Squares Regression 
 
 `lm()`
 
@@ -42,7 +44,7 @@ _outline_
 
 - looks for the coefficients that minimize the residual sum of squares
 
-###### Assumptions of Least Squares Regression
+#### Assumptions of Least Squares Regression
 
 	1. Linearity
 
@@ -58,7 +60,7 @@ _outline_
 
 	7. _Error term_ is normally distributed with standard deviation 𝞂 and mean 0.
 
-###### Resistant Regression
+#### Resistant Regression
 
 `library(MASS)`
 `lqs()`
@@ -66,7 +68,7 @@ _outline_
 - fitting a model to data with outliers via method = "lms" (least median squares) or "lts" (least trimmed squares)
 
 
-###### Robust Regression
+#### Robust Regression
 
 `library(MASS)`
 `rlm(formula, data, weights, ... )` 
@@ -74,14 +76,14 @@ _outline_
 - method that handles problems with heteroscedasticity and outliers in the data.
 
 
-###### Stepwise Variable Selection 
+#### Stepwise Variable Selection 
 
 `step(object, scope, scale = 0, ...)` 
 _where object is a model from lm(), glm(), aov()_
 
 - algorithm repeatedly adds/removes variables from the model in an attempt to 'improve' with every step. Akaike Information Criterion (AIC) is the measure for value of variable with this function
 
-###### Ridge Regression
+#### Ridge Regression
 
 
 `libary(MASS)`
@@ -102,7 +104,7 @@ _where object is a model from lm(), glm(), aov()_
 
 - method `lars` computes enture lasso path at once - from a model with no variables; then lambda values when each variable enters the model; and finally a model with all coefficients present.
 
-###### elasticnet
+#### elasticnet
 
 `library(elasticnet)`
 `enet(x, y, lambda, max.steps, normalize, intercept, trace, eps)`
@@ -111,7 +113,7 @@ _where object is a model from lm(), glm(), aov()_
 
 - takes matrices but not data frames :(
 
-###### Principal Component & Partial Least Squares Regression
+#### Principal Component & Partial Least Squares Regression
 
 _Principal Component Regression_
 
@@ -134,7 +136,7 @@ Both of these functions are aliases to the function
 
 #### Nonlinear Models
 
-###### Generalized Linear Models
+# Generalized Linear Models
 
 
 
