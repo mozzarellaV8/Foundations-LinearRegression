@@ -1,6 +1,5 @@
 # Regression Models
 
-
 This is an ongoing list of notes taken from the [Harvard Statistical Software Workshop](http://tutorials.iq.harvard.edu/R/Rstatistics/Rstatistics.html) and the book [R in a Nutshell](http://shop.oreilly.com/product/0636920022008.do).
 
 - [Linear Models](#linear-models)
