@@ -104,7 +104,7 @@ The R-Squared values also appear to suggest a weak relationship:
 
 So maybe thinking that people in cities result for the bulk of a state's energy consumption is more of a 'conventional wisdom' than strong or actual correlation. It'd be naive to think the entire country existed in a strictly-divided city/country or urban/rural contrast. 
 
-I plotteed of the model to explore further and see if anything was missed in the assumptions implicit in least squares regression. 
+I plotted of the model to explore further and see if anything was missed in the assumptions implicit in least squares regression. 
 
 ![lm plot](plots/03-energy.metro.mod.jpeg)
 
@@ -128,7 +128,7 @@ All three of these outlier states rank in the top 8 least % of House and Senate 
 
 Given that the lowest populations are consuming the most energy - I'm going to venture that industry is what accounts for the outlier spikes, rather than everyday citizens. For `toxics` to be released in large quantities as each of these outlier states do, civilian consumption would not seem to cut it. 
 
-## Correlation Plot 
+## Correlation Matrix 
 
 #### pre-processing
 
@@ -256,7 +256,7 @@ green         3.597436   5.747016
 
 ## Using AIC to choose a model
 
-Just as another 'check', I thought I'd try using `step()` and the Akaike Information Criterion for model selection. First to clean up some of the data - dealing with factors.
+Just as another 'check', I thought I'd try Stepwise Variable Selection (`step()`) and the Akaike Information Criterion. First to clean up some of the data - dealing with factors.
 
 ``` r
 states.factors <- states.data
@@ -381,12 +381,12 @@ Use the states data set.
 2. Try adding region to the model. Are there significant differences across the four regions?
 
 ``` r
-toxic.green.interaction <- lm(energy ~ (toxic + green)*area, data = states.data)
+toxic.green.interaction <- lm(energy ~ (toxic + green) * area, data = states.data)
 summary(toxic.green.interaction)
 ```
 
 ``` r
-toxic.green.region <- lm(energy ~ toxic+green+region, data = states.data)
+toxic.green.region <- lm(energy ~ toxic + green + region, data = states.data)
 summary(toxic.green.region)
 ```
 
