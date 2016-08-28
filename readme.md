@@ -9,12 +9,15 @@ This is an exercise in fitting a linear regression model to data, as part of Spr
 - [working code with comments](linear-regression.R) - notes for `Process and Analysis`
 - [just the code](LR-straightcode.R) - edited from working code
 - [Data](data)
+- [Regression Notes](RegressionNotes.md) - on various techniques and analysis of fit. 
+- [F. Harrell Regression Lectures on youtube](https://youtu.be/4SPCQRCxuWI)
 
 _Least Squares? Linear Regression?_
 
-Linear Regression is a statistical method for fitting a line to points of data. This line can be thought of as a predictor for future data points - given significant data that's been properly formatted, thoughtfully analyzed, and taken into consideration with domain knowledge or real-world situations. 
+Linear Regression is a statistical method for fitting a line to points of data. This line can be thought of as a predictor for future data points - given significant data that's been properly extracted, thoughtfully cleaned, and taken into consideration with domain knowledge or real-world situations. 
 
-Many lines can be approximately fit to multiple data points; the goal for a more 'accurate' predictor is to find the _line of best fit_. 'Best fit' in this sense refers to reduction of error - distance between the line fit and the data points. A common metric for accuracy is to take the square of this distance. 
+Many lines can be approximately fit to multiple data points; the goal for a more 'accurate' predictor is to find the _line of best fit_. 'Best fit' in this sense refers to reduction of error - distance between the line fit and the data points. A common metric for accuracy is to take the sum of squares of these distances, looking for the _least squares_. There are various methods that are less and more robust; _root mean squared error_, _least absolute deviations_, _least median squared deviation (no sum)_. Sqaures and absolute values result in postive values. 
+
 
 ## Instructions: least squares regression
 
