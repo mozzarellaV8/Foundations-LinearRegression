@@ -10,7 +10,7 @@ This is an exercise in fitting a linear regression model to data, as part of Spr
 - [just the code](LR-straightcode.R) - edited from working code
 - [Data](data)
 - [Regression Notes](RegressionNotes.md) - on various techniques and analysis of fit. 
-- [F. Harrell Regression Lectures on youtube](https://youtu.be/4SPCQRCxuWI)
+- [F. Harrell Regression Lectures on youtube](https://youtu.be/4SPCQRCxuWI) - masterful
 
 _Least Squares? Linear Regression?_
 
